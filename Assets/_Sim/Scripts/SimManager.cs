@@ -7,12 +7,12 @@ namespace _Sim.Scripts
     public class SimManager : MonoBehaviour
     {
         public static SimManager Instance;
-
         private ParticleSystem _cardParticleSystem;
         private int _collidedCount;
         private bool _isCardParticlesPositive;
         private bool _isCardParticlesActive;
-        private Action _onParticlesStopped;
+        private event Action _onParticlesStopped;
+        public event Action<int> OnParticaleChangedCount;
 
         private void Awake()
         {
@@ -31,24 +31,37 @@ namespace _Sim.Scripts
             _onParticlesStopped  = onParticlesStopped;
         }
 
+        public void UpdateLabelCount()
+        {
+            int count = _isCardParticlesPositive ? _cardParticleSystem.particleCount : -_cardParticleSystem.particleCount;
+             OnParticaleChangedCount?.Invoke(count);
+        }
+
         public void SetCardIsPositive(bool isPositive)
         {
             _isCardParticlesActive = true;
             _isCardParticlesPositive = isPositive;
         }
 
-        public void OnParticlesCollided(bool isPositive)
+        public void OnParticlesCollided(bool isPositive, int collisionCount)
         {
-            if (!_isCardParticlesActive || _cardParticleSystem.particleCount == 0)
+            if (!_isCardParticlesActive || _cardParticleSystem.particleCount == 0 || collisionCount == 0)
             {
                 return;
             }
             
-            var isCanceling = isPositive && !_isCardParticlesPositive || !isPositive && _isCardParticlesPositive;
+            var isCanceling = ( isPositive && !_isCardParticlesPositive ) ||
+                ( !isPositive && _isCardParticlesPositive );
+
             if (isCanceling)
             {
+                _collidedCount += collisionCount;
                 
-                _collidedCount++;
+                int collidedCalculation = _cardParticleSystem.particleCount - _collidedCount;
+                collidedCalculation *= _isCardParticlesPositive ? 1 : -1;
+               
+                OnParticaleChangedCount?.Invoke(collidedCalculation);
+                LogsManager.Instance.AddLog(collisionCount);
             }
             
             if (!_isCardParticlesActive || _cardParticleSystem.particleCount == 0)
@@ -63,6 +76,7 @@ namespace _Sim.Scripts
                 _cardParticleSystem.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
                 _onParticlesStopped?.Invoke();
                 
+                LogsManager.Instance.WriteLog();
             }
         }
 
