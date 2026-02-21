@@ -1,0 +1,13 @@
+# 1. Ignore everything in the root
+/*
+
+# 2. But do not ignore these specific folders
+!/Assets/
+!/Packages/
+!/ProjectSettings/
+!/UserSettings/
+
+!README.md
+
+# 3. Allow this .gitignore file
+!.gitignore
