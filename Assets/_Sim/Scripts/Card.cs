@@ -21,10 +21,11 @@ namespace _Sim.Scripts
         {
             _mainModule = _particleSystem.main;
             SimManager.Instance.SubscribeCardParticleSystem(_particleSystem, OnParticlesStopped);
+            IsPositive();
             SimManager.Instance.SetCardIsPositive(_isPositive);
             
-            _mainModule.startColor = _isPositive ? _plusColor : _minusColor;
             _particleSystem.Play();
+            SimManager.Instance.UpdateLabelCount();
         }
 
         private void OnParticlesStopped()
@@ -39,15 +40,24 @@ namespace _Sim.Scripts
                 return;
             }
             _isWaiting = true;
-            
+
             // wait for random time, and then select random positive/negative charge
             var randWaitTime = Random.Range(_minWaitTime, _maxWaitTime);
             await UniTask.Delay(TimeSpan.FromSeconds(randWaitTime), cancellationToken: this.GetCancellationTokenOnDestroy());
+           
+            IsPositive();            
+            SimManager.Instance.SetCardIsPositive(_isPositive);
+
+            _particleSystem.Play();
+            SimManager.Instance.UpdateLabelCount();
+
+            _isWaiting = false;
+        }
+
+        private void IsPositive()
+        {
             _isPositive = Random.Range(0, 2) == 0;
             _mainModule.startColor = _isPositive ? _plusColor : _minusColor;
-            SimManager.Instance.SetCardIsPositive(_isPositive);
-            _particleSystem.Play();
-            _isWaiting = false;
         }
     }
 }

@@ -11,6 +11,8 @@
 # 3. Allow this .gitignore file
 !.gitignore
 
+/Assets/SaveData/
+Assets/SaveData*
 
 .utmp/
 /[Ll]ibrary/
