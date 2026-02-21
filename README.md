@@ -1,4 +1,4 @@
-# production_line
+# Production line
 System Overview
 
 This project presents a simulation system designed to emulate a realistic electronics workbench environment for soldering tasks. The simulation includes a virtual work surface, tools, and environmental conditions that mimic real-world soldering scenarios.
