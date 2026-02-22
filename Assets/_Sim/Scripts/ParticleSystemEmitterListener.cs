@@ -12,15 +12,12 @@ namespace _Sim.Scripts
         private void OnParticleCollision(GameObject other)
         {
             
-            _particleSystem.GetCollisionEvents(this.gameObject, _collisionEvents);
-            //ParticlePhysicsExtensions.GetCollisionEvents(_particleSystem, this.gameObject, _collisionEvents);
+            _particleSystem.GetCollisionEvents(other, _collisionEvents);
+        
             if (_collisionEvents.Count != 0)
             {
                 SimManager.Instance.OnParticlesCollided(_isPositive, _collisionEvents.Count);
             }
-
-            SimManager.Instance.OnParticlesCollided(_isPositive, 1);
-            
         }
     }
 }
