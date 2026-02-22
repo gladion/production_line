@@ -61,7 +61,7 @@ namespace _Sim.Scripts
                 collidedCalculation *= _isCardParticlesPositive ? 1 : -1;
                
                 OnParticaleChangedCount?.Invoke(collidedCalculation);
-                LogsManager.Instance.AddLog(collisionCount);
+                LogsManager.Instance.AddLog(_collidedCount);
             }
             
             if (!_isCardParticlesActive || _cardParticleSystem.particleCount == 0)
