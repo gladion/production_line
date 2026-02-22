@@ -3,7 +3,7 @@ using _Sim.Scripts;
 using TMPro;
 using UnityEngine;
 
-public class IonLabelLevel : MonoBehaviour
+public class SpeedLevelLabel : MonoBehaviour
 {
 
     [SerializeField] private TMP_Text _label;
@@ -11,21 +11,20 @@ public class IonLabelLevel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _label.text = "Ion: 0";
-        SimManager.Instance.OnParticaleChangedCount += OnPrticalChange;
+        _label.text = "Speed: 0";
+        SimManager.Instance.OnSpeedChanged += OnSpeedChanged;
     }
 
-    private void OnPrticalChange(int countParticals)
+    private void OnSpeedChanged(float speed)
     {
-        _label.text = "Ion: " + countParticals.ToString();
-    
+        _label.text = "Speed: " + speed.ToString("#.00");
     }
 
     private void OnDestroy()
     {
         if (SimManager.Instance != null)
         {
-            SimManager.Instance.OnParticaleChangedCount -= OnPrticalChange;
+            SimManager.Instance.OnSpeedChanged -= OnSpeedChanged;
         }
     }
 }

@@ -63,6 +63,8 @@ namespace _Sim.Scripts
 
         private void OnSpeedSliderChange(float sliderValue)
         {
+            SimManager.Instance.UpdateDistance(sliderValue);
+
             if (sliderValue == 0)
             {
                 _psPlus.Stop();

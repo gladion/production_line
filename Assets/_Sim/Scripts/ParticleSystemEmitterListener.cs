@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Sim.Scripts
@@ -12,15 +13,17 @@ namespace _Sim.Scripts
         private void OnParticleCollision(GameObject other)
         {
             
-            _particleSystem.GetCollisionEvents(this.gameObject, _collisionEvents);
-            //ParticlePhysicsExtensions.GetCollisionEvents(_particleSystem, this.gameObject, _collisionEvents);
-            if (_collisionEvents.Count != 0)
+            _particleSystem.GetCollisionEvents(other, _collisionEvents);
+
+            if (_collisionEvents.Count != 0 && IsProbability())
             {
                 SimManager.Instance.OnParticlesCollided(_isPositive, _collisionEvents.Count);
             }
+        }
 
-            SimManager.Instance.OnParticlesCollided(_isPositive, 1);
-            
+        private bool IsProbability()
+        {
+            return true;
         }
     }
 }

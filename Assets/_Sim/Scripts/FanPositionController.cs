@@ -27,6 +27,7 @@ namespace _Sim.Scripts
 
             // Set distance slider to match initial distance
             _currentDistance = _fan.localPosition.x;
+            SimManager.Instance.UpdateDistance(_currentDistance);
             _distanceSlider.value = Mathf.Clamp01(_currentDistance / _maxDistance);
             _distanceSlider.onValueChanged.AddListener(OnDistanceChanged);
             UpdateFanDistance();
@@ -58,6 +59,7 @@ namespace _Sim.Scripts
         private void OnDistanceChanged(float normalizedDistance)
         {
             _currentDistance = normalizedDistance * _maxDistance;
+            SimManager.Instance.UpdateDistance(_currentDistance);
             UpdateFanDistance();
         }
 
