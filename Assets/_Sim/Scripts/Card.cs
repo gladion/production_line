@@ -25,7 +25,7 @@ namespace _Sim.Scripts
             SimManager.Instance.SetCardIsPositive(_isPositive);
             
             _particleSystem.Play();
-            SimManager.Instance.UpdateLabelCount();
+            SimManager.Instance.UpdateIonLabelCount();
         }
 
         private void OnParticlesStopped()
@@ -49,7 +49,7 @@ namespace _Sim.Scripts
             SimManager.Instance.SetCardIsPositive(_isPositive);
 
             _particleSystem.Play();
-            SimManager.Instance.UpdateLabelCount();
+            SimManager.Instance.UpdateIonLabelCount();
 
             _isWaiting = false;
         }

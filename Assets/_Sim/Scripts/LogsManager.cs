@@ -29,9 +29,9 @@ namespace _Sim.Scripts
             createFolder();
         }
 
-        public void AddLog(int count)
+        public void AddLog(String log)
         {
-            _logList.Add(DateTime.Now.ToString("HH:mm:ss.fff") + " " + count);
+            _logList.Add(DateTime.Now.ToString("HH:mm:ss.fff") + " " + log);
         }
        
         public void WriteLog()

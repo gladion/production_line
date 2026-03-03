@@ -13,6 +13,10 @@ namespace _Sim.Scripts
         private bool _isCardParticlesActive;
         private event Action _onParticlesStopped;
         public event Action<int> OnParticaleChangedCount;
+        public event Action<float> OnSpeedChanged;
+        public event Action<float> OnDistanceChanged;
+        private float _speed;
+        private float _distance;
 
         private void Awake()
         {
@@ -25,16 +29,28 @@ namespace _Sim.Scripts
             Instance = this;
         }
 
+        public void UpdateSpeed(float speed)
+        {
+            _speed = speed;
+            OnSpeedChanged?.Invoke(_speed);
+        }
+
+        public void UpdateDistance(float distance)
+        {
+            _distance = distance;
+            OnDistanceChanged?.Invoke(_distance);
+        } 
+
         public void SubscribeCardParticleSystem(ParticleSystem ps, Action onParticlesStopped)
         {
             _cardParticleSystem = ps;
             _onParticlesStopped  = onParticlesStopped;
         }
 
-        public void UpdateLabelCount()
+        public void UpdateIonLabelCount()
         {
             int count = _isCardParticlesPositive ? _cardParticleSystem.particleCount : -_cardParticleSystem.particleCount;
-             OnParticaleChangedCount?.Invoke(count);
+            OnParticaleChangedCount?.Invoke(count);
         }
 
         public void SetCardIsPositive(bool isPositive)
@@ -61,7 +77,12 @@ namespace _Sim.Scripts
                 collidedCalculation *= _isCardParticlesPositive ? 1 : -1;
                
                 OnParticaleChangedCount?.Invoke(collidedCalculation);
-                LogsManager.Instance.AddLog(_collidedCount);
+
+                String Log = "P:" + collisionCount.ToString();
+                Log += " " + "S:" + _speed.ToString("#.00");
+                Log += " " + "D:" + _distance.ToString("#.00");
+
+                LogsManager.Instance.AddLog(Log);
             }
             
             if (!_isCardParticlesActive || _cardParticleSystem.particleCount == 0)
