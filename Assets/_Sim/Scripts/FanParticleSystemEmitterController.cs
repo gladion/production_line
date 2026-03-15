@@ -63,7 +63,7 @@ namespace _Sim.Scripts
 
         private void OnSpeedSliderChange(float sliderValue)
         {
-            SimManager.Instance.UpdateDistance(sliderValue);
+            SimManager.Instance.UpdateSpeed(sliderValue);
 
             if (sliderValue == 0)
             {
